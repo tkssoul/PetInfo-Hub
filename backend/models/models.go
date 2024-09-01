@@ -6,11 +6,12 @@ import (
     "time"
 )
 var DB *gorm.DB
-// 实名信息表
-type ReanNameInfo struct {
-    gorm.Model   
-    RIDNum string `gorm:"unique" json:"rid_num"`     
-    User_ID  int    `gorm:"not null" json:"user_id"`
+
+// 实名信息
+type RealName struct {
+    gorm.Model
+    User_ID  int    `gorm:"primaryKey autoIncrement" json:"user_id"`
+    RIDNum string `gorm:"unique" json:"rid_num"`         
     Real_name string `gorm:"type:varchar(100) not null" json:"real_name"`
 }
 
@@ -19,7 +20,7 @@ type Users struct {
     gorm.Model
     User_ID  int    `gorm:"primaryKey autoIncrement" json:"user_id"`
     Username string `gorm:"type:varchar(50) not null unique" json:"username"`
-    Password string `gorm:"type:varchar(255) not null" json:"password"`
+    Password string `gorm:"type:varchar(255) not null" json:"password"`        
 }
 
 // 宠物
@@ -158,5 +159,5 @@ func InitDB() {
     if err != nil {
         panic("failed to connect database")
     }    
-    DB.AutoMigrate(&ReanNameInfo{}, &Users{}, &Posts{}, &Pets{},&Likes{},&Comments{},&Friendship{},&Messages{},&Guide{},&PetFriendlySpot{},&PetCareShop{},&PetSitter{},&PetBoardingDetail{})
+    DB.AutoMigrate(&Users{}, &Posts{}, &Pets{},&Likes{},&Comments{},&Friendship{},&Messages{},&Guide{},&PetFriendlySpot{},&PetCareShop{},&PetSitter{},&PetBoardingDetail{})
 }
