@@ -43,7 +43,9 @@ type Posts struct {
     Content  string `gorm:"type:text not null" json:"content"`
     Summary  string `gorm:"type:text not null" json:"summary"`
     Thumbnail_url string `gorm:"type:varchar(255)" json:"thumbnail_url"`
-    Tags    string `gorm:"type:varchar(255)" json:"tags"`        
+    Tags    string `gorm:"type:varchar(255)" json:"tags"`      
+    Views  int    `gorm:"type:int" json:"views"`
+    Like_count int `gorm:"type:int" json:"like_count"`  
 }
 
 // 点赞
