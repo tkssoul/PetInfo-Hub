@@ -18,7 +18,7 @@ type RealName struct {
 // 用户
 type Users struct {
     gorm.Model
-    User_ID  int    `gorm:"primaryKey autoIncrement" json:"user_id"`
+    User_ID  uint    `gorm:"primaryKey autoIncrement" json:"user_id"`
     Username string `gorm:"type:varchar(50) not null unique" json:"username"`
     Password string `gorm:"type:varchar(255) not null" json:"password"`        
 }
@@ -38,8 +38,8 @@ type Pets struct {
 // 动态
 type Posts struct {
     gorm.Model    
-    Post_ID  int    `gorm:"primaryKey autoIncrement" json:"post_id"`
-    User_ID  int    `gorm:"not null" json:"user_id"`
+    Post_ID  uint    `gorm:"primaryKey autoIncrement" json:"post_id"`
+    User_ID  uint    `gorm:"not null" json:"user_id"`
     Title    string `gorm:"type:varchar(255) not null" json:"title"`
     Content  string `gorm:"type:text not null" json:"content"`
     Summary  string `gorm:"type:text not null" json:"summary"`
@@ -60,9 +60,9 @@ type Likes struct {
 // 评论 
 type Comments struct {
     gorm.Model
-    Comment_ID int `gorm:"primaryKey autoIncrement" json:"comment_id"`
-    User_ID    int `gorm:"unique not null" json:"user_id"`
-    Post_ID    int `gorm:"unique not null" json:"post_id"`
+    Comment_ID uint `gorm:"primaryKey autoIncrement" json:"comment_id"`
+    User_ID    uint `gorm:"unique not null" json:"user_id"`
+    Post_ID    uint `gorm:"unique not null" json:"post_id"`
     Parent_Comment_ID int `gorm:"unique not null" json:"parent_comment_id"`
     Content    string `gorm:"type:text not null" json:"content"`    
 }
@@ -116,7 +116,7 @@ type PetFriendlySpot struct {
 // 服务信息
 type PetCareShop struct {  
     gorm.Model  
-    Spot_ID       int       `gorm:"primaryKey;autoIncrement" json:"shop_id"`  
+    Shop_ID       int       `gorm:"primaryKey;autoIncrement" json:"shop_id"`  
     Name         string    `gorm:"size:255;not null" json:"name"`  
     Location     string    `gorm:"size:255;not null" json:"location"`  
     Description  string    `gorm:"type:text" json:"description"`  

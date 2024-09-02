@@ -71,3 +71,16 @@ func (r *FriendshipRepository) GetFriendsByUserID(userID int) ([]int, error) {
     }
     return friendIDs, nil
 }
+
+// FindUserByID 通过用户ID查找用户
+func (r *FriendshipRepository) FindUserByID(userID int) (*models.Users, error) {
+    var user models.Users
+    result := r.db.First(&user, userID)
+    if result.Error != nil {
+        if result.Error == gorm.ErrRecordNotFound {
+            return nil, errors.New("用户不存在")
+        }
+        return nil, result.Error
+    }
+    return &user, nil
+}

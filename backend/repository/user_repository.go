@@ -34,7 +34,7 @@ func (r *UserRepository) FindUserByUsername(username string) (*models.Users, err
 }
 
 // FindUserByID 通过用户ID查找用户
-func (r *UserRepository) FindUserByID(userID int) (*models.Users, error) {
+func (r *UserRepository) FindUserByID(userID uint) (*models.Users, error) {
     var user models.Users
     result := r.db.First(&user, userID)
     if result.Error != nil {
@@ -53,7 +53,7 @@ func (r *UserRepository) UpdateUser(user *models.Users) error {
 }
 
 // DeleteUser 删除用户
-func (r *UserRepository) DeleteUser(userID int) error {
+func (r *UserRepository) DeleteUser(userID uint) error {
     result := r.db.Delete(&models.Users{}, userID)
     if result.Error != nil {
         return result.Error

@@ -16,8 +16,8 @@ type CommentCreation struct {
 }
 
 func CreatePost(post PostCreation, repo *repository.PostRepository) error {
-    newPost := models.Post{
-        UserID:  post.UserID,
+    newPost := models.Posts{
+        User_ID:  post.UserID,
         Content: post.Content,
     }
 
@@ -39,10 +39,10 @@ func CommentOnPost(postID uint, comment CommentCreation, commentRepo *repository
         return err
     }
 
-    newComment := models.Comment{
-        PostID: post.ID,
-        UserID: comment.UserID,
-        Text:   comment.Text,
+    newComment := models.Comments{
+        Post_ID: post.Post_ID,
+        User_ID: comment.UserID,
+        Content:   comment.Text,
     }
 
     return commentRepo.CreateComment(&newComment)
