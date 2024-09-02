@@ -21,7 +21,7 @@ func (r *RealNameRepository) CreateRealName(realName *models.RealName) error {
 }
 
 // FindRealNameByUserID 通过用户ID查找实名信息
-func (r *RealNameRepository) FindRealNameByUserID(userID int) (*models.RealName, error) {
+func (r *RealNameRepository) FindRealNameByUserID(userID uint) (*models.RealName, error) {
     var realName models.RealName
     result := r.db.Where("user_id = ?", userID).First(&realName)
     if result.Error != nil {
@@ -40,7 +40,7 @@ func (r *RealNameRepository) UpdateRealName(realName *models.RealName) error {
 }
 
 // DeleteRealName 删除实名信息
-func (r *RealNameRepository) DeleteRealName(userID int) error {
+func (r *RealNameRepository) DeleteRealName(userID uint) error {
     result := r.db.Where("user_id = ?", userID).Delete(&models.RealName{})
     if result.Error != nil {
         return result.Error

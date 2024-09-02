@@ -8,6 +8,7 @@ import (
 
 type UserService struct {
     repo *repository.UserRepository
+    repo_realname *repository.RealNameRepository
 }
 
 func NewUserService(repo *repository.UserRepository) *UserService {
@@ -65,4 +66,43 @@ func (s *UserService) DeleteUser(userID uint) error {
         return errors.New("用户不存在")
     }
     return s.repo.DeleteUser(userID)
+}
+
+// 获取实名信息
+func (s *UserService) GetRealNameInfo(userID uint) (*models.RealName, error) {
+    return s.repo_realname.FindRealNameByUserID(userID)
+}
+
+// 创建实名信息
+func (s *UserService) CreateRealNameInfo(realName *models.RealName) error {
+    return s.repo_realname.CreateRealName(realName)
+}
+
+// 更新实名信息
+func (s *UserService) UpdateRealNameInfo(realName *models.RealName) error {
+    existingRealName, err := s.repo_realname.FindRealNameByUserID(realName.User_ID)
+    if err != nil {
+        return err
+    }
+    if existingRealName == nil {
+        return errors.New("实名信息不存在")
+    }
+    return s.repo_realname.UpdateRealName(realName)
+}
+
+// 删除实名信息
+func (s *UserService) DeleteRealNameInfo(userID uint) error {
+    existingRealName, err := s.repo_realname.FindRealNameByUserID(userID)
+    if err != nil {
+        return err
+    }
+    if existingRealName == nil {
+        return errors.New("实名信息不存在")
+    }
+    return s.repo_realname.DeleteRealName(userID)
+}
+
+// 获取所有用户信息
+func (s *UserService) GetAllUsers() ([]models.Users, error) {
+    return s.repo.GetAllUsers()
 }

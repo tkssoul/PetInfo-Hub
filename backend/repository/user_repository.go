@@ -63,3 +63,10 @@ func (r *UserRepository) DeleteUser(userID uint) error {
     }
     return nil
 }
+
+// 获取所有用户信息
+func (r *UserRepository) GetAllUsers() ([]models.Users, error) {
+    var users []models.Users
+    result := r.db.Find(&users)
+    return users, result.Error
+}
