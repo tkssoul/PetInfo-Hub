@@ -88,7 +88,7 @@ type Messages struct {
 
 // 攻略
 type Guide struct {
-    Guide_ID int `gorm:"primaryKey autoIncrement" json:"guide_id"`
+    Guide_ID uint `gorm:"primaryKey autoIncrement" json:"guide_id"`
     Title    string `gorm:"type:varchar(255) not null" json:"title"`
     Content  string `gorm:"type:text not null" json:"content"`
     Species  string `gorm:"type:varchar(100)" json:"species"`

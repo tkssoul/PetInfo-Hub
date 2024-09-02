@@ -24,7 +24,7 @@ func (r *GuideRepository) GetAllGuides() ([]models.Guide, error) {
 }
 
 // GetGuideByID 根据 ID 获取攻略
-func (r *GuideRepository) GetGuideByID(guideID int) (*models.Guide, error) {
+func (r *GuideRepository) GetGuideByID(guideID uint) (*models.Guide, error) {
     var guide models.Guide
     if err := r.db.First(&guide, guideID).Error; err != nil {
         if err == gorm.ErrRecordNotFound {
@@ -52,7 +52,7 @@ func (r *GuideRepository) UpdateGuide(guide models.Guide) error {
 }
 
 // DeleteGuide 删除攻略
-func (r *GuideRepository) DeleteGuide(guideID int) error {
+func (r *GuideRepository) DeleteGuide(guideID uint) error {
     if err := r.db.Delete(&models.Guide{}, guideID).Error; err != nil {
         return err
     }

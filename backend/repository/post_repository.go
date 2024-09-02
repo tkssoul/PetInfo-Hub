@@ -66,3 +66,10 @@ func (r *PostRepository) DeletePost(post *models.Posts) error {
     result := r.db.Delete(post)
     return result.Error
 }
+
+// 更新动态
+func (r *PostRepository) UpdatePost(post *models.Posts) error {
+    // 仅更新提供的字段，保留其他字段不变
+    result := r.db.Save(post)
+    return result.Error
+}

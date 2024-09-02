@@ -21,7 +21,7 @@ func (s *GuideService) CreateGuide(guide models.Guide) (models.Guide,error) {
 }
 
 // 获取特定攻略
-func (s *GuideService) GetGuideByID(guideID int) (*models.Guide, error) {
+func (s *GuideService) GetGuideByID(guideID uint) (*models.Guide, error) {
     return s.repo.GetGuideByID(guideID)
 }
 
@@ -43,7 +43,7 @@ func (s *GuideService) UpdateGuide(guide models.Guide) error {
 }
 
 // 删除攻略
-func (s *GuideService) DeleteGuide(guideID int) error {
+func (s *GuideService) DeleteGuide(guideID uint) error {
     existingGuide, err := s.repo.GetGuideByID(guideID)
     if err != nil {
         return err

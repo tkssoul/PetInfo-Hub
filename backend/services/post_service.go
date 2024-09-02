@@ -1,8 +1,8 @@
 package services
 
-import (    
+import (
     "backend/models"
-    "backend/repository"
+    "backend/repository"        
 )
 
 type PostCreation struct {
@@ -15,35 +15,85 @@ type CommentCreation struct {
     Text   string `json:"text"`
 }
 
-func CreatePost(post PostCreation, repo *repository.PostRepository) error {
-    newPost := models.Posts{
-        User_ID:  post.UserID,
-        Content: post.Content,
-    }
-
-    return repo.CreatePost(&newPost)
+type PostService struct {
+    postRepo    *repository.PostRepository
+    commentRepo *repository.CommentRepository
 }
 
-func LikePost(postID uint, repo *repository.PostRepository) error {
-    post, err := repo.FindPostByID(postID)
+func NewPostService(postRepo *repository.PostRepository, commentRepo *repository.CommentRepository) *PostService {
+    return &PostService{
+        postRepo:    postRepo,
+        commentRepo: commentRepo,
+    }
+}
+
+// CreatePost 创建动态
+func (ps *PostService) CreatePost(postCreation PostCreation) error {
+    newPost := models.Posts{
+        User_ID: postCreation.UserID,
+        Content: postCreation.Content,
+    }
+
+    return ps.postRepo.CreatePost(&newPost)
+}
+
+// GetPostByID 通过ID获取动态
+func (ps *PostService) GetPostByID(postID uint) (*models.Posts, error) {
+    post, err := ps.postRepo.FindPostByID(postID)
+    if err != nil {
+        return nil, err
+    }
+    return post, nil
+}
+
+// UpdatePost 更新动态
+func (ps *PostService) UpdatePost(postID uint, updatedPost models.Posts) error {
+    post, err := ps.postRepo.FindPostByID(postID)
     if err != nil {
         return err
     }
 
-    return repo.IncrementLikes(post)
+    // 更新数据
+    post.Content = updatedPost.Content
+    // 你可以在这里添加更多的字段更新
+    // post.Title = updatedPost.Title
+    // post.ImageURL = updatedPost.ImageURL
+
+    return ps.postRepo.UpdatePost(post)
 }
 
-func CommentOnPost(postID uint, comment CommentCreation, commentRepo *repository.CommentRepository, postRepo *repository.PostRepository) error {
-    post, err := postRepo.FindPostByID(postID)
+// DeletePost 删除动态
+func (ps *PostService) DeletePost(postID uint) error {
+    post, err := ps.postRepo.FindPostByID(postID)
+    if err != nil {
+        return err
+    }
+
+    return ps.postRepo.DeletePost(post)
+}
+
+// LikePost 给动态点赞
+func (ps *PostService) LikePost(postID uint) error {
+    post, err := ps.postRepo.FindPostByID(postID)
+    if err != nil {
+        return err
+    }
+
+    return ps.postRepo.IncrementLikes(post)
+}
+
+// CommentOnPost 对动态评论
+func (ps *PostService) CommentOnPost(postID uint, commentCreation CommentCreation) error {
+    post, err := ps.postRepo.FindPostByID(postID)
     if err != nil {
         return err
     }
 
     newComment := models.Comments{
         Post_ID: post.Post_ID,
-        User_ID: comment.UserID,
-        Content:   comment.Text,
+        User_ID: commentCreation.UserID,
+        Content: commentCreation.Text,
     }
 
-    return commentRepo.CreateComment(&newComment)
+    return ps.commentRepo.CreateComment(&newComment)
 }
