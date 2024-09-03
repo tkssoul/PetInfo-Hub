@@ -1,9 +1,9 @@
 package models
 
 import (
+	"time"	
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-    "time"
 )
 var DB *gorm.DB
 
@@ -152,12 +152,14 @@ type PetBoardingDetail struct {
     SpecialRequirements string `gorm:"type:text" json:"special_requirements"`  
 }  
 
-func InitDB() {
+func InitDB() *gorm.DB{
     var err error
-    dsn := "root:rootpw1.@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local"
+    dsn := "root:666.@tcp(127.0.0.1:3306)/PetDB?charset=utf8mb4&parseTime=True&loc=Local"
     DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
     if err != nil {
-        panic("failed to connect database")
+        panic("连接数据库失败, error=" + err.Error())
     }    
     DB.AutoMigrate(&Users{}, &Posts{}, &Pets{},&Likes{},&Comments{},&Friendship{},&Messages{},&Guide{},&PetFriendlySpot{},&PetCareShop{},&PetSitter{},&PetBoardingDetail{})
+    DB.Create(&Users{Username: "admin", Password: "adminpw",User_ID:1})
+    return DB
 }
