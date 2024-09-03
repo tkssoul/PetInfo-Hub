@@ -22,7 +22,7 @@ func (r *PetBoardingDetailRepository) CreatePetBoardingDetail(detail *models.Pet
 }
 
 // 通过寄养信息ID获取特定寄养信息
-func (r *PetBoardingDetailRepository) FindPetBoardingDetailByID(boardingID int) (*models.PetBoardingDetail, error) {
+func (r *PetBoardingDetailRepository) FindPetBoardingDetailByID(boardingID uint) (*models.PetBoardingDetail, error) {
     var detail models.PetBoardingDetail
     result := r.db.First(&detail, boardingID)
     if result.Error != nil {
@@ -48,7 +48,7 @@ func (r *PetBoardingDetailRepository) UpdatePetBoardingDetail(detail *models.Pet
 }
 
 // 删除特定寄养信息
-func (r *PetBoardingDetailRepository) DeletePetBoardingDetail(boardingID int) error {
+func (r *PetBoardingDetailRepository) DeletePetBoardingDetail(boardingID uint) error {
     result := r.db.Delete(&models.PetBoardingDetail{}, boardingID)
     return result.Error
 }

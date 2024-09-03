@@ -110,7 +110,7 @@ func (ps *PostService) CommentOnPost(postID uint, commentCreation CommentCreatio
     }
 
     newComment := models.Comments{
-        Post_ID: post.Post_ID,
+        Post_ID: post.ID,
         User_ID: commentCreation.UserID,
         Content: commentCreation.Text,
     }

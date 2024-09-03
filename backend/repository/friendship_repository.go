@@ -15,7 +15,7 @@ func NewFriendshipRepository(db *gorm.DB) *FriendshipRepository {
 }
 
 // AddFriend 添加好友
-func (r *FriendshipRepository) AddFriend(userID, friendID int) error {
+func (r *FriendshipRepository) AddFriend(userID uint, friendID uint) error {
     // 确保一个用户不能与自己成为好友
     if userID == friendID {
         return errors.New("不能添加自己为好友")
@@ -57,7 +57,7 @@ func (r *FriendshipRepository) RemoveFriend(userID, friendID int) error {
 }
 
 // GetFriendsByUserID 获取特定用户的好友列表
-func (r *FriendshipRepository) GetFriendsByUserID(userID int) ([]int, error) {
+func (r *FriendshipRepository) GetFriendsByUserID(userID uint) ([]uint, error) {
     var friendships []models.Friendship
     result := r.db.Where("user_id = ?", userID).Find(&friendships)
     if result.Error != nil {
@@ -65,7 +65,7 @@ func (r *FriendshipRepository) GetFriendsByUserID(userID int) ([]int, error) {
     }
 
     // 提取好友ID
-    friendIDs := make([]int, 0, len(friendships))
+    friendIDs := make([]uint, 0, len(friendships))
     for _, friendship := range friendships {
         friendIDs = append(friendIDs, friendship.Friend_ID)
     }
@@ -73,7 +73,7 @@ func (r *FriendshipRepository) GetFriendsByUserID(userID int) ([]int, error) {
 }
 
 // FindUserByID 通过用户ID查找用户
-func (r *FriendshipRepository) FindUserByID(userID int) (*models.Users, error) {
+func (r *FriendshipRepository) FindUserByID(userID uint) (*models.Users, error) {
     var user models.Users
     result := r.db.First(&user, userID)
     if result.Error != nil {

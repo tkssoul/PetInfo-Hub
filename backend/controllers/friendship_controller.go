@@ -16,10 +16,14 @@ func NewFriendshipController(friendshipService *services.FriendshipService) *Fri
 }
 
 // AddFriend 添加好友
-func (fc *FriendshipController) AddFriend(c *gin.Context) {
-    userID, _ := strconv.Atoi(c.Param("userId"))
-    friendID, _ := strconv.Atoi(c.Param("friendId"))
+func (fc *FriendshipController) AddFriend(c *gin.Context) {        
+    userIDStr := c.Param("userId")	
+	userIDUint, _ := strconv.ParseUint(userIDStr, 10, 64)
+	userID := uint(userIDUint) 
 
+    friendIDStr := c.Param("friendId")	
+	friendIDUint, _ := strconv.ParseUint(friendIDStr, 10, 64)
+	friendID := uint(friendIDUint) 
     err := fc.friendshipService.AddFriend(userID, friendID)
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -45,8 +49,9 @@ func (fc *FriendshipController) RemoveFriend(c *gin.Context) {
 
 // GetFriendsByUserID 获取用户的好友列表
 func (fc *FriendshipController) GetFriendsByUserID(c *gin.Context) {
-    userID, _ := strconv.Atoi(c.Param("userId"))
-
+    userIDStr := c.Param("userId")	
+	userIDUint, _ := strconv.ParseUint(userIDStr, 10, 64)
+	userID := uint(userIDUint) 
     friendIDs, err := fc.friendshipService.GetFriendsByUserID(userID)
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

@@ -21,7 +21,7 @@ func (s *PetBoardingDetailService) CreatePetBoardingDetail(detail *models.PetBoa
 }
 
 // 获取特定寄养信息
-func (s *PetBoardingDetailService) GetPetBoardingDetailByID(boardingID int) (*models.PetBoardingDetail, error) {
+func (s *PetBoardingDetailService) GetPetBoardingDetailByID(boardingID uint) (*models.PetBoardingDetail, error) {
     return s.repo.FindPetBoardingDetailByID(boardingID)
 }
 
@@ -43,7 +43,7 @@ func (s *PetBoardingDetailService) UpdatePetBoardingDetail(detail *models.PetBoa
 }
 
 // 删除寄养信息
-func (s *PetBoardingDetailService) DeletePetBoardingDetail(boardingID int) error {
+func (s *PetBoardingDetailService) DeletePetBoardingDetail(boardingID uint) error {
     existingDetail, err := s.repo.FindPetBoardingDetailByID(boardingID)
     if err != nil {
         return err

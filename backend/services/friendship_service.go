@@ -15,7 +15,7 @@ func NewFriendshipService(repo *repository.FriendshipRepository) *FriendshipServ
 }
 
 // 添加好友
-func (s *FriendshipService) AddFriend(userID, friendID int) error {
+func (s *FriendshipService) AddFriend(userID, friendID uint) error {
     // 检查输入的用户ID是否有效
     if userID <= 0 || friendID <= 0 {
         return errors.New("无效的用户ID")
@@ -35,7 +35,7 @@ func (s *FriendshipService) RemoveFriend(userID, friendID int) error {
 }
 
 // 获取特定用户的好友列表
-func (s *FriendshipService) GetFriendsByUserID(userID int) ([]models.Users, error) {
+func (s *FriendshipService) GetFriendsByUserID(userID uint) ([]models.Users, error) {
     // 获取好友ID列表
     friendIDs, err := s.repo.GetFriendsByUserID(userID)
     if err != nil {

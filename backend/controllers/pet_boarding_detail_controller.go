@@ -30,9 +30,10 @@ func (pb *PetBoardingDetailController) GetBoardingDetailsBySitterID(c *gin.Conte
 }
 
 // GetBoardingDetailByID 获取特定寄养信息的详细信息
-func (pb *PetBoardingDetailController) GetBoardingDetailByID(c *gin.Context) {
-    boardingID, _ := strconv.Atoi(c.Param("boardingId"))
-
+func (pb *PetBoardingDetailController) GetBoardingDetailByID(c *gin.Context) {    
+    boardIDStr := c.Param("boardingId")	
+	boardIDUint, _ := strconv.ParseUint(boardIDStr, 10, 64)
+	boardingID := uint(boardIDUint) 
     boardingDetail, err := pb.petBoardingDetailService.GetPetBoardingDetailByID(boardingID)
     if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
@@ -78,8 +79,9 @@ func (pb *PetBoardingDetailController) UpdateBoardingDetail(c *gin.Context) {
 
 // DeleteBoardingDetail 删除特定寄养信息
 func (pb *PetBoardingDetailController) DeleteBoardingDetail(c *gin.Context) {
-    boardingID, _ := strconv.Atoi(c.Param("boardingId"))
-
+    boardIDStr := c.Param("boardingId")	
+	boardIDUint, _ := strconv.ParseUint(boardIDStr, 10, 64)
+	boardingID := uint(boardIDUint) 
     err := pb.petBoardingDetailService.DeletePetBoardingDetail(boardingID)
     if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})

@@ -9,10 +9,9 @@ var DB *gorm.DB
 
 // 实名信息
 type RealName struct {
-    gorm.Model    
-    User_ID Users `gorm:"foreignKey:ID" json:"user_id"`
+    gorm.Model        
     RIDNum string `gorm:"unique" json:"rid_num"`         
-    Real_name string `gorm:"type:varchar(100) not null" json:"real_name"`
+    Real_name string `gorm:"type:varchar(100) not null" json:"real_name"`    
 }
 
 // 用户
@@ -20,13 +19,17 @@ type Users struct {
     gorm.Model    
     Username string `gorm:"type:varchar(50) not null unique" json:"username" form:"username"`
     Password string `gorm:"type:varchar(255) not null" json:"password" form:"password"`         
+    RealName RealName `gorm:"foreignKey:ID" json:"real_name"`
+    Pets    Pets `gorm:"foreignKey:ID" json:"pets"`
+    Friendship Friendship   `gorm:"foreignKey:User_ID" json:"friendship"`
+    Posts Posts `gorm:"foreignKey:User_ID" json:"posts"`
 }
 
 // 宠物
 type Pets struct {
     gorm.Model
-    Pet_ID  uint    `gorm:"primaryKey autoIncrement" json:"pet_id"`
-    User_ID Users    `gorm:"foreignKey:ID" json:"user_id"`
+    Pet_ID  uint    `gorm:"primaryKey autoIncrement" json:"pet_id"`    
+    User_ID uint   `gorm:"unique not null" json:"user_id"`
     Name     string `gorm:"type:varchar(50) not null" json:"name"`
     Species string `gorm:"type:varchar(50) not null" json:"species"`
     Breed   string `gorm:"type:varchar(50) not null" json:"breed"`
@@ -36,8 +39,7 @@ type Pets struct {
 
 // 动态
 type Posts struct {
-    gorm.Model    
-    Post_ID  uint    `gorm:"primaryKey autoIncrement" json:"post_id"`
+    gorm.Model        
     User_ID  uint    `gorm:"not null" json:"user_id"`
     Title    string `gorm:"type:varchar(255) not null" json:"title"`
     Content  string `gorm:"type:text not null" json:"content"`
@@ -45,7 +47,9 @@ type Posts struct {
     Thumbnail_url string `gorm:"type:varchar(255)" json:"thumbnail_url"`
     Tags    string `gorm:"type:varchar(255)" json:"tags"`      
     Views  int    `gorm:"type:int" json:"views"`
-    Like_count int `gorm:"type:int" json:"like_count"`  
+    Like_count int `gorm:"type:int" json:"like_count"`      
+    Likes Likes `gorm:"foreignKey:Post_ID" json:"likes"`
+    Comments Comments `gorm:"foreignKey:Post_ID" json:"comments"`
 }
 
 // 点赞
@@ -62,16 +66,16 @@ type Comments struct {
     Comment_ID uint `gorm:"primaryKey autoIncrement" json:"comment_id"`
     User_ID    uint `gorm:"unique not null" json:"user_id"`
     Post_ID    uint `gorm:"unique not null" json:"post_id"`
-    Parent_Comment_ID int `gorm:"unique not null" json:"parent_comment_id"`
+    Parent_Comment_ID uint `gorm:"unique not null" json:"parent_comment_id"`
     Content    string `gorm:"type:text not null" json:"content"`    
 }
 
 // 好友关系
 type Friendship struct {
     gorm.Model
-    Friendship_ID int `gorm:"primaryKey autoIncrement" json:"friendship_id"`
-    User_ID       int `gorm:"unique not null" json:"user_id"`
-    Friend_ID     int `gorm:"unique not null" json:"friend_id"`    
+    Friendship_ID uint `gorm:"primaryKey autoIncrement" json:"friendship_id"`
+    User_ID       uint `gorm:"unique" json:"user_id"`
+    Friend_ID     uint `gorm:"unique not null" json:"friend_id"`    
 }
 
 // 消息
@@ -142,8 +146,8 @@ type PetSitter struct {
 // 寄养信息
 type PetBoardingDetail struct {  
     gorm.Model  
-    BoardingID     int       `gorm:"primaryKey;autoIncrement" json:"boarding_id"`  
-    SitterID       int       `gorm:"not null" json:"sitter_id"`  
+    BoardingID     uint       `gorm:"primaryKey;autoIncrement" json:"boarding_id"`  
+    SitterID       uint       `gorm:"not null" json:"sitter_id"`  
     PetName        string    `gorm:"size:255" json:"pet_name"`  
     PetType        string    `gorm:"size:50" json:"pet_type"`  
     StartDate      time.Time `gorm:"type:date" json:"start_date"`  
