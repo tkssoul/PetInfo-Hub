@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
     "github.com/gin-gonic/gin"
@@ -94,7 +94,7 @@ func setupRouter(db *gorm.DB) *gin.Engine {
 
     // 景点相关路由
     spotRepo := repository.NewSpotRepository(db)
-    spotService := services.PetFriendlySpotService(spotRepo)
+    spotService := services.NewPetFriendlySpotService(spotRepo)
     spotController := controllers.NewPetFriendlySpotController(spotService)
 
     router.GET("/pet-friendly-spots", spotController.GetAllPetFriendlySpots)

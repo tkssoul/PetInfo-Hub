@@ -2,17 +2,17 @@ package main
 
 import (
     "log"    
-    "backend/routes"
-    "backend/models"	
+    "backend/routes"    	
+    "backend/utils"
 )
 
 func main() {
     // Initialize database	
-    models.InitDB()
+    DB := utils.InitDB()
 	
 
      // Set up Gin router    
-    router := routes.SetupRoutes()
+    router := routes.setupRouter(DB)    
 
     // Start the server
     if err := router.Run(":8080"); err != nil {
