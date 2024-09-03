@@ -1,7 +1,8 @@
 package models
 
 import (
-	"time"	
+	"time"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -114,6 +115,7 @@ type PetFriendlySpot struct {
     Rating         float64   `gorm:"default:0" json:"rating"`  
     Tags           string    `gorm:"size:255" json:"tags"`  
     PetActivities  string    `gorm:"type:text" json:"pet_activities"`  
+    Img_Url        string    `gorm:"size:255" json:"img_url"`
 }  
 
 // 服务信息
@@ -127,7 +129,8 @@ type PetCareShop struct {
     ContactInfo  string    `gorm:"size:255" json:"contact_info"`  
     OpeningHours string    `gorm:"size:100" json:"opening_hours"`  
     Rating       float64   `gorm:"default:0" json:"rating"`  
-    Tags         string    `gorm:"size:255" json:"tags"`     
+    Tags         string    `gorm:"size:255" json:"tags"` 
+    Img_Url        string    `gorm:"size:255" json:"img_url"`    
 }  
 
 // 寄养人
