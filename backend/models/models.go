@@ -127,8 +127,7 @@ type PetSitter struct {
 
 // 寄养信息
 type PetBoardingDetail struct {  
-    gorm.Model  
-    Boarding_ID     uint       `gorm:"primaryKey;autoIncrement" json:"boarding_id"`  
+    gorm.Model        
     Sitter_ID       uint       `gorm:"not null" json:"sitter_id"`  // 外键
     PetName        string    `gorm:"size:255" json:"pet_name"`  
     PetType        string    `gorm:"size:50" json:"pet_type"`  
