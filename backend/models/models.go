@@ -149,7 +149,7 @@ type Users struct {
 
 
 func InitDB() *gorm.DB{    
-    dsn := "root:rootpw1.@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local"
+    dsn := "root:666@tcp(127.0.0.1:3306)/PetDB?charset=utf8mb4&parseTime=True&loc=Local"
     DB, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
     if err != nil {
         panic("连接数据库失败, error=" + err.Error())
