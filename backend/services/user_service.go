@@ -16,8 +16,7 @@ func NewUserService(repo *repository.UserRepository) *UserService {
 }
 
 // 创建新用户
-func (s *UserService) CreateUser(user *models.Users) error {
-    // 在这里可以添加更多的业务逻辑，比如检查用户名是否已存在
+func (s *UserService) CreateUser(user *models.Users) error {    
     existingUser, err := s.repo.FindUserByUsername(user.Username)
     if err == nil && existingUser != nil {
         return errors.New("用户名已存在")

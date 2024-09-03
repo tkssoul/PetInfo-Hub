@@ -20,12 +20,12 @@ func NewUserController(userService *services.UserService) *UserController {
 func (uc *UserController) CreateUser(c *gin.Context) {
     var user models.Users
     if err := c.ShouldBindJSON(&user); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+        c.JSON(http.StatusBadRequest, gin.H{"传入的数据格式错误,error": err.Error()})
         return
     }
 
     if err := uc.userService.CreateUser(&user); err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+        c.JSON(http.StatusInternalServerError, gin.H{"创建用户失败,error": err.Error()})
         return
     }
 
@@ -35,7 +35,7 @@ func (uc *UserController) CreateUser(c *gin.Context) {
 // GetUserByID 通过ID获取用户
 func (uc *UserController) GetUserByID(c *gin.Context) {
 	userIdStr := c.Param("user_id")
-	userIDUint, err := strconv.ParseUint(userIdStr, 10, 64)
+	userIDUint, _ := strconv.ParseUint(userIdStr, 10, 64)
 	userID := uint(userIDUint) 
     user, err := uc.userService.FindUserByID(userID)
     if err != nil {
@@ -80,7 +80,7 @@ func (uc *UserController) DeleteUser(c *gin.Context) {
 // GetRealNameInfo 获取用户实名信息
 func (uc *UserController) GetRealNameInfo(c *gin.Context) {
     userIdStr := c.Param("user_id")
-	userIDUint, err := strconv.ParseUint(userIdStr, 10, 64)
+	userIDUint, _ := strconv.ParseUint(userIdStr, 10, 64)
 	userID := uint(userIDUint) 
     realNameInfo, err := uc.userService.GetRealNameInfo(userID)
     if err != nil {

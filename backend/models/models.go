@@ -18,9 +18,9 @@ type RealName struct {
 // 用户
 type Users struct {
     gorm.Model
-    User_ID  uint    `gorm:"primaryKey autoIncrement" json:"user_id"`
-    Username string `gorm:"type:varchar(50) not null unique" json:"username"`
-    Password string `gorm:"type:varchar(255) not null" json:"password"`        
+    User_ID  uint    `gorm:"primaryKey autoIncrement" json:"user_id" form:"user_id"`
+    Username string `gorm:"type:varchar(50) not null unique" json:"username" form:"username"`
+    Password string `gorm:"type:varchar(255) not null" json:"password" form:"password"`         
 }
 
 // 宠物
@@ -154,12 +154,12 @@ type PetBoardingDetail struct {
 
 func InitDB() *gorm.DB{
     var err error
-    dsn := "root:666.@tcp(127.0.0.1:3306)/PetDB?charset=utf8mb4&parseTime=True&loc=Local"
+    dsn := "root:rootpw1.@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local"
     DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
     if err != nil {
         panic("连接数据库失败, error=" + err.Error())
     }    
-    DB.AutoMigrate(&Users{}, &Posts{}, &Pets{},&Likes{},&Comments{},&Friendship{},&Messages{},&Guide{},&PetFriendlySpot{},&PetCareShop{},&PetSitter{},&PetBoardingDetail{})
+    DB.AutoMigrate(&RealName{},&Users{}, &Posts{}, &Pets{},&Likes{},&Comments{},&Friendship{},&Messages{},&Guide{},&PetFriendlySpot{},&PetCareShop{},&PetSitter{},&PetBoardingDetail{})
     DB.Create(&Users{Username: "admin", Password: "adminpw",User_ID:1})
     return DB
 }

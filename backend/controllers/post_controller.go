@@ -40,7 +40,7 @@ func (pc *PostController) CreatePost(c *gin.Context) {
 // GetPostByID 通过ID获取动态
 func (pc *PostController) GetPostByID(c *gin.Context) {    
     postIDStr := c.Param("post_id")	
-	userIDUint, err := strconv.ParseUint(postIDStr, 10, 64)
+	userIDUint, _ := strconv.ParseUint(postIDStr, 10, 64)
 	postID := uint(userIDUint) 
     post, err := pc.postService.GetPostByID(postID)
     if err != nil {

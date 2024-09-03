@@ -35,7 +35,7 @@ func (pc *PetController) CreatePet(c *gin.Context) {
 // 通过ID获取宠物
 func (pc *PetController) GetPetByID(c *gin.Context) {
     petIDStr := c.Param("pet_id")	
-	userIDUint, err := strconv.ParseUint(petIDStr, 10, 64)
+	userIDUint, _ := strconv.ParseUint(petIDStr, 10, 64)
 	petID := uint(userIDUint) 
     pet, err := pc.petService.FindPetByID(petID)
     if err != nil {
@@ -80,7 +80,7 @@ func (pc *PetController) DeletePet(c *gin.Context) {
 // 获取特定用户的宠物列表
 func (pc *PetController) GetPetsByUserID(c *gin.Context) {
     userIdStr := c.Param("user_id")
-	userIDUint, err := strconv.ParseUint(userIdStr, 10, 64)
+	userIDUint, _ := strconv.ParseUint(userIdStr, 10, 64)
 	userID := uint(userIDUint) 
     pets, err := pc.petService.GetPetsByUserID(userID)
     if err != nil {
