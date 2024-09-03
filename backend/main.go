@@ -12,7 +12,7 @@ func main() {
 	
 
      // Set up Gin router    
-    router := routes.setupRouter(DB)    
+    router := routes.SetupRouter(DB)    
 
     // Start the server
     if err := router.Run(":8080"); err != nil {

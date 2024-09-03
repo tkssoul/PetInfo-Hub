@@ -8,7 +8,7 @@ import (
     "gorm.io/gorm"
 )
 
-func setupRouter(db *gorm.DB) *gin.Engine {
+func SetupRouter(db *gorm.DB) *gin.Engine {
     router := gin.Default()
 
     // 用户相关路由
