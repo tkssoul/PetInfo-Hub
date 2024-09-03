@@ -1,9 +1,9 @@
 package services
 
 import (
-    "errors"
-    "backend/models"
-    "backend/repository"
+	"backend/models"
+	"backend/repository"
+	"errors"	
 )
 
 type UserService struct {
@@ -56,14 +56,11 @@ func (s *UserService) UpdateUser(user *models.Users) error {
 
 // 删除用户
 func (s *UserService) DeleteUser(userID uint) error {
-    // 确保用户存在
-    existingUser, err := s.repo.FindUserByID(userID)
+    // 确保用户存在    
+    _, err := s.repo.FindUserByID(userID)
     if err != nil {
         return err
-    }
-    if existingUser == nil {
-        return errors.New("用户不存在")
-    }
+    }            
     return s.repo.DeleteUser(userID)
 }
 

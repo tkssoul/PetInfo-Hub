@@ -35,15 +35,15 @@ func (r *UserRepository) FindUserByUsername(username string) (*models.Users, err
 
 // FindUserByID 通过用户ID查找用户
 func (r *UserRepository) FindUserByID(userID uint) (*models.Users, error) {
-    var user models.Users
-    result := r.db.First(&user, userID)
+    var user *models.Users
+    result := r.db.Where("user_id = ?",userID).First(&user)
     if result.Error != nil {
         if result.Error == gorm.ErrRecordNotFound {
-            return nil, errors.New("用户不存在")
+            return nil, errors.New("找不到该用户")
         }
         return nil, result.Error
     }
-    return &user, nil
+    return user, nil
 }
 
 // UpdateUser 更新用户信息
@@ -54,7 +54,7 @@ func (r *UserRepository) UpdateUser(user *models.Users) error {
 
 // DeleteUser 删除用户
 func (r *UserRepository) DeleteUser(userID uint) error {
-    result := r.db.Delete(&models.Users{}, userID)
+    result := r.db.Where("user_id = ?",userID).Delete(&models.Users{})
     if result.Error != nil {
         return result.Error
     }

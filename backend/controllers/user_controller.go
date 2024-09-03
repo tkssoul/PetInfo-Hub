@@ -19,8 +19,10 @@ func NewUserController(userService *services.UserService) *UserController {
 // CreateUser 创建用户
 func (uc *UserController) CreateUser(c *gin.Context) {
     var user models.Users
-    if err := c.ShouldBindJSON(&user); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"传入的数据格式错误,error": err.Error()})
+    // user.Username = c.PostForm("username")
+    // user.Password = c.PostForm("password")
+    if err := c.ShouldBind(&user); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"传入的数据格式错误,error:": err.Error()})
         return
     }
 
@@ -66,14 +68,13 @@ func (uc *UserController) UpdateUser(c *gin.Context) {
 // DeleteUser 删除用户
 func (uc *UserController) DeleteUser(c *gin.Context) {
 	userIdStr := c.Param("user_id")
-	userIDUint, err := strconv.ParseUint(userIdStr, 10, 64)
+	userIDUint, _ := strconv.ParseUint(userIdStr, 10, 64)
 	userID := uint(userIDUint) 
-    err1 := uc.userService.DeleteUser(userID)
-    if err1 != nil {
+    err := uc.userService.DeleteUser(userID)
+    if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
         return
-    }
-
+    }    
     c.JSON(http.StatusOK, gin.H{"message": "用户删除成功"})
 }
 
