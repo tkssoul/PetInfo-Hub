@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-    // Initialize database	
+    // Initialize database
     DB := utils.InitDB()
 	
 
