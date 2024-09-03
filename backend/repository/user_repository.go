@@ -54,7 +54,7 @@ func (r *UserRepository) UpdateUser(user *models.Users) error {
 
 // DeleteUser 删除用户
 func (r *UserRepository) DeleteUser(userID uint) error {
-    result := r.db.Where("user_id = ?",userID).Delete(&models.Users{})
+    result := r.db.Delete(&models.Users{},userID)
     if result.Error != nil {
         return result.Error
     }
