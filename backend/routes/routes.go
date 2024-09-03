@@ -79,7 +79,7 @@ func setupRouter(db *gorm.DB) *gin.Engine {
     messageController := controllers.NewMessageController(messageService)
 
     router.GET("/users/:user_id/messages", messageController.GetMessagesByUserID)
-    router.POST("/users/:receiver_id/messages", messageController.SendMessage)
+    router.POST("/users/:receiver_id/messages", messageController.CreateMessage)
 
     // 攻略相关路由
     guideRepo := repository.NewGuideRepository(db)

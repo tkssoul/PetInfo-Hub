@@ -78,9 +78,9 @@ type Friendship struct {
 // 消息
 type Messages struct {
     gorm.Model
-    Message_ID int `gorm:"primaryKey autoIncrement" json:"message_id"`
-    Sender_ID   int `gorm:"unique not null" json:"sender_id"`
-    Receiver_ID int `gorm:"unique not null" json:"receiver_id"`
+    Message_ID uint `gorm:"primaryKey autoIncrement" json:"message_id"`
+    Sender_ID   uint `gorm:"unique not null" json:"sender_id"`
+    Receiver_ID uint `gorm:"unique not null" json:"receiver_id"`
     Content    string `gorm:"type:text not null" json:"content"`
     Image_url string `gorm:"type:varchar(255)" json:"image_url"`
     Send_at     time.Time `json:"send_at"`

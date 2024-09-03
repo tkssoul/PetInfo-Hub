@@ -14,14 +14,14 @@ func NewMessageRepository(db *gorm.DB) *MessageRepository {
     return &MessageRepository{db: db}
 }
 
-// SendMessage 发送消息
-func (r *MessageRepository) SendMessage(message *models.Messages) error {
+// SendMessage 创建消息
+func (r *MessageRepository) CreateMessage(message *models.Messages) error {
     result := r.db.Create(message)
     return result.Error
 }
 
 // GetMessagesByUserID 获取特定用户的消息列表
-func (r *MessageRepository) GetMessagesByUserID(userID int) ([]models.Messages, error) {
+func (r *MessageRepository) GetMessagesByUserID(userID uint) ([]models.Messages, error) {
     var messages []models.Messages
     result := r.db.Where("receiver_id = ?", userID).Order("sent_at desc").Find(&messages)
     if result.Error != nil {
@@ -31,7 +31,7 @@ func (r *MessageRepository) GetMessagesByUserID(userID int) ([]models.Messages, 
 }
 
 // FindMessageByID 通过消息ID查找消息
-func (r *MessageRepository) FindMessageByID(messageID int) (*models.Messages, error) {
+func (r *MessageRepository) FindMessageByID(messageID uint) (*models.Messages, error) {
     var message models.Messages
     result := r.db.First(&message, messageID)
     if result.Error != nil {
