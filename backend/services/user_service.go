@@ -44,7 +44,7 @@ func (s *UserService) FindUserByID(userID uint) (*models.Users, error) {
 // 更新用户信息
 func (s *UserService) UpdateUser(user *models.Users) error {
     // 确保用户存在
-    existingUser, err := s.repo.FindUserByID(user.User_ID)
+    existingUser, err := s.repo.FindUserByID(user.ID)
     if err != nil {
         return err
     }
@@ -76,7 +76,7 @@ func (s *UserService) CreateRealNameInfo(realName *models.RealName) error {
 
 // 更新实名信息
 func (s *UserService) UpdateRealNameInfo(realName *models.RealName) error {
-    existingRealName, err := s.repo_realname.FindRealNameByUserID(realName.User_ID)
+    existingRealName, err := s.repo_realname.FindRealNameByUserID(realName.ID)
     if err != nil {
         return err
     }

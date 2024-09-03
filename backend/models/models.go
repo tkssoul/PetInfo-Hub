@@ -9,16 +9,15 @@ var DB *gorm.DB
 
 // 实名信息
 type RealName struct {
-    gorm.Model
-    User_ID  uint    `gorm:"primaryKey autoIncrement" json:"user_id"`
+    gorm.Model    
+    User_ID Users `gorm:"foreignKey:ID" json:"user_id"`
     RIDNum string `gorm:"unique" json:"rid_num"`         
     Real_name string `gorm:"type:varchar(100) not null" json:"real_name"`
 }
 
 // 用户
 type Users struct {
-    gorm.Model
-    User_ID  uint    `gorm:"primaryKey autoIncrement" json:"user_id" form:"user_id"`
+    gorm.Model    
     Username string `gorm:"type:varchar(50) not null unique" json:"username" form:"username"`
     Password string `gorm:"type:varchar(255) not null" json:"password" form:"password"`         
 }
@@ -27,7 +26,7 @@ type Users struct {
 type Pets struct {
     gorm.Model
     Pet_ID  uint    `gorm:"primaryKey autoIncrement" json:"pet_id"`
-    User_ID int    `gorm:"not null" json:"user_id"`
+    User_ID Users    `gorm:"foreignKey:ID" json:"user_id"`
     Name     string `gorm:"type:varchar(50) not null" json:"name"`
     Species string `gorm:"type:varchar(50) not null" json:"species"`
     Breed   string `gorm:"type:varchar(50) not null" json:"breed"`
