@@ -27,7 +27,7 @@ func (s *PetService) FindPetByID(petID uint) (*models.Pets, error) {
 
 // 更新宠物信息
 func (s *PetService) UpdatePet(pet *models.Pets) error {
-    existingPet, err := s.repo.FindPetByID(pet.Pet_ID)
+    existingPet, err := s.repo.FindPetByID(pet.ID)
     if err != nil {
         return err
     }

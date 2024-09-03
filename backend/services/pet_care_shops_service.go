@@ -32,7 +32,7 @@ func (s *PetCareShopService) GetAllPetCareShops() ([]models.PetCareShop, error) 
 
 // 更新店铺信息
 func (s *PetCareShopService) UpdatePetCareShop(shop *models.PetCareShop) error {
-    existingShop, err := s.repo.FindPetCareShopByID(shop.Shop_ID)
+    existingShop, err := s.repo.FindPetCareShopByID(shop.ID)
     if err != nil {
         return err
     }

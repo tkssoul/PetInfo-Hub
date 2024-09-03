@@ -32,7 +32,7 @@ func (s *PetSitterService) GetAllPetSitters() ([]models.PetSitter, error) {
 
 // 更新寄养人信息
 func (s *PetSitterService) UpdatePetSitter(sitter *models.PetSitter) error {
-    existingSitter, err := s.repo.FindPetSitterByID(sitter.SitterID)
+    existingSitter, err := s.repo.FindPetSitterByID(sitter.ID)
     if err != nil {
         return err
     }

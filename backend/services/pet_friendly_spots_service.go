@@ -32,7 +32,7 @@ func (s *PetFriendlySpotService) GetAllPetFriendlySpots() ([]models.PetFriendlyS
 
 // 更新景点信息
 func (s *PetFriendlySpotService) UpdatePetFriendlySpot(spot *models.PetFriendlySpot) error {
-    existingSpot, err := s.repo.FindPetFriendlySpotByID(spot.SpotID)
+    existingSpot, err := s.repo.FindPetFriendlySpotByID(spot.ID)
     if err != nil {
         return err
     }

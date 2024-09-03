@@ -32,7 +32,7 @@ func (s *PetBoardingDetailService) GetPetBoardingDetailsBySitterID(sitterID int)
 
 // 更新寄养信息
 func (s *PetBoardingDetailService) UpdatePetBoardingDetail(detail *models.PetBoardingDetail) error {
-    existingDetail, err := s.repo.FindPetBoardingDetailByID(detail.BoardingID)
+    existingDetail, err := s.repo.FindPetBoardingDetailByID(detail.Boarding_ID)
     if err != nil {
         return err
     }

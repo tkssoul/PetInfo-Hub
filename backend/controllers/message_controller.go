@@ -26,7 +26,7 @@ func (mc *MessageController) CreateMessage(c *gin.Context) {
         return
     }
 
-    message.Send_at = time.Now() // 设置发送时间为当前时间
+    message.SendAt = time.Now() // 设置发送时间为当前时间
 
     if err := mc.messageService.CreateMessage(&message); err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

@@ -35,7 +35,7 @@ func (s *CommentService) GetCommentsByPostID(postID uint) ([]models.Comments, er
 // 更新特定评论
 func (s *CommentService) UpdateComment(comment *models.Comments) error {
     // 确保评论存在
-    existingComment, err := s.repo.FindCommentByID(comment.Comment_ID)
+    existingComment, err := s.repo.FindCommentByID(comment.ID)
     if err != nil {
         return err
     }

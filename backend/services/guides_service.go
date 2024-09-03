@@ -32,7 +32,7 @@ func (s *GuideService) GetAllGuides() ([]models.Guide, error) {
 
 // 更新攻略信息
 func (s *GuideService) UpdateGuide(guide models.Guide) error {
-    existingGuide, err := s.repo.GetGuideByID(guide.Guide_ID)
+    existingGuide, err := s.repo.GetGuideByID(guide.ID)
     if err != nil {
         return err
     }

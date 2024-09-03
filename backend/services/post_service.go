@@ -89,13 +89,13 @@ func (ps *PostService) GetLikesCount(postID uint) (int, error) {
         return 0, err
     }
 
-    return post.Like_count, nil
+    return post.LikeCount, nil
 }
 
 // 取消点赞
 func (ps *PostService) UnlikePost(postID uint) error {
     post, err := ps.postRepo.FindPostByID(postID)
-    post.Like_count--
+    post.LikeCount--
     if err != nil {
         return err
     }

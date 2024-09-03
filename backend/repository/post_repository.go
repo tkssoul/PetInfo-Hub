@@ -42,7 +42,7 @@ func (r *PostRepository) FindAllPosts() ([]models.Posts, error) {
 
 // 增加1个帖子的点赞数
 func (r *PostRepository) IncrementLikes(posts *models.Posts) error {
-    posts.Like_count++
+    posts.LikeCount++
     result := r.db.Save(posts)
     return result.Error
 }
@@ -56,7 +56,7 @@ func (r *PostRepository) IncrementViews(posts *models.Posts) error {
 
 // 减少1个帖子的点赞数
 func (r *PostRepository) DecreaseLikes(posts *models.Posts) error {
-    posts.Like_count--
+    posts.LikeCount--
     result := r.db.Save(posts)
     return result.Error
 }
