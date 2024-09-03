@@ -18,10 +18,10 @@ func NewCommentController(commentService *services.CommentService) *CommentContr
 
 // GetCommentsByPostID 获取特定动态的评论
 func (cc *CommentController) GetCommentsByPostID(c *gin.Context) {    
-	commentIDStr := c.Param("comment_id")	
-	commmentIDUint, _ := strconv.ParseUint(commentIDStr, 10, 64)
-	commentID := uint(commmentIDUint) 
-    comments, err := cc.commentService.GetCommentsByPostID(commentID)
+	postIDStr := c.Param("post_id")	
+	postIDUint, _ := strconv.ParseUint(postIDStr, 10, 64)
+	postID := uint(postIDUint) 
+    comments, err := cc.commentService.GetCommentsByPostID(postID)
     if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
         return
