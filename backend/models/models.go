@@ -160,6 +160,5 @@ func InitDB() *gorm.DB{
         panic("连接数据库失败, error=" + err.Error())
     }    
     DB.AutoMigrate(&RealName{},&Users{}, &Posts{}, &Pets{},&Likes{},&Comments{},&Friendship{},&Messages{},&Guide{},&PetFriendlySpot{},&PetCareShop{},&PetSitter{},&PetBoardingDetail{})
-    DB.Create(&Users{Username: "admin", Password: "adminpw",User_ID:1})
     return DB
 }

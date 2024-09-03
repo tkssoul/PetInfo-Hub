@@ -19,8 +19,8 @@ func NewUserController(userService *services.UserService) *UserController {
 // CreateUser 创建用户
 func (uc *UserController) CreateUser(c *gin.Context) {
     var user models.Users
-    // user.Username = c.PostForm("username")
-    // user.Password = c.PostForm("password")
+    user.Username = c.PostForm("username")
+    user.Password = c.PostForm("password")
     if err := c.ShouldBind(&user); err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"传入的数据格式错误,error:": err.Error()})
         return
