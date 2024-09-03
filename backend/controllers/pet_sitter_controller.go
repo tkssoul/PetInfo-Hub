@@ -4,6 +4,7 @@ import (
     "net/http"    
     "github.com/gin-gonic/gin"    
     "backend/services"
+	"strconv"
 )
 
 type PetSitterController struct {
@@ -26,3 +27,15 @@ func (psc *PetSitterController) GetAllPetSitters(c *gin.Context) {
 }
 
 // GetPetSitterByID 通过ID获取
+func (psc *PetSitterController) GetPetSitterByID(c *gin.Context) {
+	petSitterIDStr := c.Param("guide_id")	
+	petSitterIDUint, _ := strconv.ParseUint(petSitterIDStr, 10, 64)
+	petSitterID := uint(petSitterIDUint) 
+	petSitter, err := psc.petSitterService.GetPetSitterByID(petSitterID)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, petSitter)
+}

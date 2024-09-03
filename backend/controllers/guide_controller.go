@@ -5,6 +5,7 @@ import (
     "github.com/gin-gonic/gin"
     "backend/models"
     "backend/services"
+	"strconv"
 )
 
 type GuideController struct {
@@ -33,7 +34,10 @@ func (gc *GuideController) CreateGuide(c *gin.Context) {
 }
 
 // GetGuideByID 通过ID获取攻略
-func (gc *GuideController) GetGuideByID(guideID uint,c *gin.Context) {        
+func (gc *GuideController) GetGuideByID(c *gin.Context) {        
+	guideIDStr := c.Param("guide_id")	
+	guideIDUint, _ := strconv.ParseUint(guideIDStr, 10, 64)
+	guideID := uint(guideIDUint) 
     guide, err := gc.guideService.GetGuideByID(guideID)
     if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
@@ -72,7 +76,10 @@ func (gc *GuideController) UpdateGuide(c *gin.Context) {
 }
 
 // DeleteGuide 删除攻略
-func (gc *GuideController) DeleteGuide(guideID uint,c *gin.Context) {
+func (gc *GuideController) DeleteGuide(c *gin.Context) {
+	guideIDStr := c.Param("guide_id")	
+	guideIDUint, _ := strconv.ParseUint(guideIDStr, 10, 64)
+	guideID := uint(guideIDUint) 
     err := gc.guideService.DeleteGuide(guideID)
     if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})

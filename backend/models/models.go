@@ -116,7 +116,7 @@ type PetFriendlySpot struct {
 // 服务信息
 type PetCareShop struct {  
     gorm.Model  
-    Shop_ID       int       `gorm:"primaryKey;autoIncrement" json:"shop_id"`  
+    Shop_ID       uint       `gorm:"primaryKey;autoIncrement" json:"shop_id"`  
     Name         string    `gorm:"size:255;not null" json:"name"`  
     Location     string    `gorm:"size:255;not null" json:"location"`  
     Description  string    `gorm:"type:text" json:"description"`  
@@ -130,7 +130,7 @@ type PetCareShop struct {
 // 寄养人
 type PetSitter struct {  
     gorm.Model  
-    SitterID         int       `gorm:"primaryKey;autoIncrement" json:"sitter_id"`  
+    SitterID         uint       `gorm:"primaryKey;autoIncrement" json:"sitter_id"`  
     Name             string    `gorm:"size:255;not null" json:"name"`  
     ExperienceYears  int       `gorm:"not null" json:"experience_years"`  
     PetTypes         string    `gorm:"size:255" json:"pet_types"`  

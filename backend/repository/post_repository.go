@@ -73,3 +73,10 @@ func (r *PostRepository) UpdatePost(post *models.Posts) error {
     result := r.db.Save(post)
     return result.Error
 }
+
+// 获取所有动态
+func (r *PostRepository) GetAllPosts() ([]models.Posts, error) {
+    var posts []models.Posts
+    result := r.db.Find(&posts)
+    return posts, result.Error
+}

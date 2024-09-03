@@ -82,6 +82,26 @@ func (ps *PostService) LikePost(postID uint) error {
     return ps.postRepo.IncrementLikes(post)
 }
 
+// 获取动态的点赞数
+func (ps *PostService) GetLikesCount(postID uint) (int, error) {
+    post, err := ps.postRepo.FindPostByID(postID)
+    if err != nil {
+        return 0, err
+    }
+
+    return post.Like_count, nil
+}
+
+// 取消点赞
+func (ps *PostService) UnlikePost(postID uint) error {
+    post, err := ps.postRepo.FindPostByID(postID)
+    post.Like_count--
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
 // CommentOnPost 对动态评论
 func (ps *PostService) CommentOnPost(postID uint, commentCreation CommentCreation) error {
     post, err := ps.postRepo.FindPostByID(postID)
@@ -96,4 +116,9 @@ func (ps *PostService) CommentOnPost(postID uint, commentCreation CommentCreatio
     }
 
     return ps.commentRepo.CreateComment(&newComment)
+}
+
+// 获取所有动态
+func (ps *PostService) GetAllPosts() ([]models.Posts, error) {
+    return ps.postRepo.GetAllPosts()
 }

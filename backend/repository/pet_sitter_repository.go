@@ -22,7 +22,7 @@ func (r *PetSitterRepository) CreatePetSitter(sitter *models.PetSitter) error {
 }
 
 // 通过寄养人ID获取特定寄养人
-func (r *PetSitterRepository) FindPetSitterByID(sitterID int) (*models.PetSitter, error) {
+func (r *PetSitterRepository) FindPetSitterByID(sitterID uint) (*models.PetSitter, error) {
     var sitter models.PetSitter
     result := r.db.First(&sitter, sitterID)
     if result.Error != nil {
@@ -48,7 +48,7 @@ func (r *PetSitterRepository) UpdatePetSitter(sitter *models.PetSitter) error {
 }
 
 // 删除特定寄养人
-func (r *PetSitterRepository) DeletePetSitter(sitterID int) error {
+func (r *PetSitterRepository) DeletePetSitter(sitterID uint) error {
     result := r.db.Delete(&models.PetSitter{}, sitterID)
     return result.Error
 }

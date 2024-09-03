@@ -21,7 +21,7 @@ func (s *PetCareShopService) CreatePetCareShop(shop *models.PetCareShop) error {
 }
 
 // 获取特定店铺
-func (s *PetCareShopService) GetPetCareShopByID(shopID int) (*models.PetCareShop, error) {
+func (s *PetCareShopService) GetPetCareShopByID(shopID uint) (*models.PetCareShop, error) {
     return s.repo.FindPetCareShopByID(shopID)
 }
 
@@ -43,7 +43,7 @@ func (s *PetCareShopService) UpdatePetCareShop(shop *models.PetCareShop) error {
 }
 
 // 删除店铺
-func (s *PetCareShopService) DeletePetCareShop(shopID int) error {
+func (s *PetCareShopService) DeletePetCareShop(shopID uint) error {
     existingShop, err := s.repo.FindPetCareShopByID(shopID)
     if err != nil {
         return err

@@ -21,7 +21,7 @@ func (s *PetSitterService) CreatePetSitter(sitter *models.PetSitter) error {
 }
 
 // 获取特定寄养人
-func (s *PetSitterService) GetPetSitterByID(sitterID int) (*models.PetSitter, error) {
+func (s *PetSitterService) GetPetSitterByID(sitterID uint) (*models.PetSitter, error) {
     return s.repo.FindPetSitterByID(sitterID)
 }
 
@@ -43,7 +43,7 @@ func (s *PetSitterService) UpdatePetSitter(sitter *models.PetSitter) error {
 }
 
 // 删除寄养人
-func (s *PetSitterService) DeletePetSitter(sitterID int) error {
+func (s *PetSitterService) DeletePetSitter(sitterID uint) error {
     existingSitter, err := s.repo.FindPetSitterByID(sitterID)
     if err != nil {
         return err

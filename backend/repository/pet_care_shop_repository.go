@@ -22,7 +22,7 @@ func (r *PetCareShopRepository) CreatePetCareShop(shop *models.PetCareShop) erro
 }
 
 // 通过店铺ID获取特定店铺
-func (r *PetCareShopRepository) FindPetCareShopByID(shopID int) (*models.PetCareShop, error) {
+func (r *PetCareShopRepository) FindPetCareShopByID(shopID uint) (*models.PetCareShop, error) {
     var shop models.PetCareShop
     result := r.db.First(&shop, shopID)
     if result.Error != nil {
@@ -48,7 +48,7 @@ func (r *PetCareShopRepository) UpdatePetCareShop(shop *models.PetCareShop) erro
 }
 
 // 删除特定宠物服务店铺
-func (r *PetCareShopRepository) DeletePetCareShop(shopID int) error {
+func (r *PetCareShopRepository) DeletePetCareShop(shopID uint) error {
     result := r.db.Delete(&models.PetCareShop{}, shopID)
     return result.Error
 }

@@ -5,6 +5,7 @@ import (
     "github.com/gin-gonic/gin"
     "backend/models"
     "backend/services"
+	"strconv"
 )
 
 type CommentController struct {
@@ -16,8 +17,11 @@ func NewCommentController(commentService *services.CommentService) *CommentContr
 }
 
 // GetCommentsByPostID 获取特定动态的评论
-func (cc *CommentController) GetCommentsByPostID(postID uint,c *gin.Context) {    
-    comments, err := cc.commentService.GetCommentsByPostID(postID)
+func (cc *CommentController) GetCommentsByPostID(c *gin.Context) {    
+	commentIDStr := c.Param("comment_id")	
+	commmentIDUint, _ := strconv.ParseUint(commentIDStr, 10, 64)
+	commentID := uint(commmentIDUint) 
+    comments, err := cc.commentService.GetCommentsByPostID(commentID)
     if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
         return
@@ -61,7 +65,10 @@ func (cc *CommentController) UpdateComment(c *gin.Context) {
 }
 
 // DeleteComment 删除特定评论
-func (cc *CommentController) DeleteComment(commentID uint,c *gin.Context) {
+func (cc *CommentController) DeleteComment(c *gin.Context) {
+	commentIDStr := c.Param("comment_id")	
+	commmentIDUint, _ := strconv.ParseUint(commentIDStr, 10, 64)
+	commentID := uint(commmentIDUint) 
     err := cc.commentService.DeleteComment(commentID)
     if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})

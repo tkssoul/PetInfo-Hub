@@ -38,10 +38,18 @@ func setupRouter(db *gorm.DB) *gin.Engine {
     router.PUT("/pets/:pet_id", petController.UpdatePet)
     router.DELETE("/pets/:pet_id", petController.DeletePet)
 
-    // 动态相关路由
+    // 动态、评论相关路由
     postRepo := repository.NewPostRepository(db)
-    postService := services.NewPostService(postRepo)
-    postController := controllers.NewPostController(postService)
+    commentRepo := repository.NewCommentRepository(db)
+    postService := services.NewPostService(postRepo,commentRepo)
+    commentService := services.NewCommentService(commentRepo)
+    postController := controllers.NewPostController(postService,commentService)
+    commentController := controllers.NewCommentController(commentService)
+
+    router.GET("/posts/:post_id/comments", commentController.GetCommentsByPostID)
+    router.POST("/posts/:post_id/comments", commentController.CreateComment)
+    router.PUT("/comments/:comment_id", commentController.UpdateComment)
+    router.DELETE("/comments/:comment_id", commentController.DeleteComment)
 
     router.GET("/posts", postController.GetAllPosts)
     router.GET("/posts/:post_id", postController.GetPostByID)
@@ -52,22 +60,13 @@ func setupRouter(db *gorm.DB) *gin.Engine {
     // 点赞相关路由
     router.GET("/posts/:post_id/likes", postController.GetLikesCount)
     router.POST("/posts/:post_id/likes", postController.LikePost)
-    router.PUT("/posts/:post_id/likes", postController.UpdateLikesCount)
+    router.PUT("/posts/:post_id/likes", postController.GetLikesCount)
     router.DELETE("/posts/:post_id/likes", postController.DislikePost)
 
-    // 评论相关路由
-    commentRepo := repository.NewCommentRepository(db)
-    commentService := services.NewCommentService(commentRepo)
-    commentController := controllers.NewCommentController(commentService)
-
-    router.GET("/posts/:post_id/comments", commentController.GetCommentsByPostID)
-    router.POST("/posts/:post_id/comments", commentController.CreateComment)
-    router.PUT("/comments/:comment_id", commentController.UpdateComment)
-    router.DELETE("/comments/:comment_id", commentController.DeleteComment)
 
     // 好友关系相关路由
     friendshipRepo := repository.NewFriendshipRepository(db)
-    friendshipService := services.NewFriendshipService(friendshipRepo, userRepo)
+    friendshipService := services.NewFriendshipService(friendshipRepo)
     friendshipController := controllers.NewFriendshipController(friendshipService)
 
     router.GET("/users/:user_id/friends", friendshipController.GetFriendsByUserID)
@@ -95,33 +94,33 @@ func setupRouter(db *gorm.DB) *gin.Engine {
 
     // 景点相关路由
     spotRepo := repository.NewSpotRepository(db)
-    spotService := services.NewSpotService(spotRepo)
-    spotController := controllers.NewSpotController(spotService)
+    spotService := services.PetFriendlySpotService(spotRepo)
+    spotController := controllers.NewPetFriendlySpotController(spotService)
 
-    router.GET("/pet-friendly-spots", spotController.GetAllSpots)
-    router.GET("/pet-friendly-spots/:spot_id", spotController.GetSpotByID)
-    router.POST("/create-pets-friendly-spot", spotController.CreateSpot)
-    router.PUT("/update-pets-friendly-spot/:spot_id", spotController.UpdateSpot)
-    router.DELETE("/delete-pets-friendly-spot/:spot_id", spotController.DeleteSpot)
+    router.GET("/pet-friendly-spots", spotController.GetAllPetFriendlySpots)
+    router.GET("/pet-friendly-spots/:spot_id", spotController.GetPetFriendlySpotByID)
+    router.POST("/create-pets-friendly-spot", spotController.CreatePetFriendlySpot)
+    router.PUT("/update-pets-friendly-spot/:spot_id", spotController.UpdatePetFriendlySpot)
+    router.DELETE("/delete-pets-friendly-spot/:spot_id", spotController.DeletePetFriendlySpot)
 
     // 服务店铺相关路由
     petCareShopRepo := repository.NewPetCareShopRepository(db)
     petCareShopService := services.NewPetCareShopService(petCareShopRepo)
     petCareShopController := controllers.NewPetCareShopController(petCareShopService)
 
-    router.GET("/pet-care-shops", petCareShopController.GetAllShops)
-    router.GET("/pet-care-shops/:shop_id", petCareShopController.GetShopByID)
-    router.POST("/create-pet-care-shops", petCareShopController.CreateShop)
-    router.PUT("/update-pet-care-shops/:shop_id", petCareShopController.UpdateShop)
-    router.DELETE("/delete-pet-care-shops/:shop_id", petCareShopController.DeleteShop)
+    router.GET("/pet-care-shops", petCareShopController.GetAllPetCareShops)
+    router.GET("/pet-care-shops/:shop_id", petCareShopController.GetPetCareShopByID)
+    router.POST("/create-pet-care-shops", petCareShopController.CreatePetCareShop)
+    router.PUT("/update-pet-care-shops/:shop_id", petCareShopController.UpdatePetCareShop)
+    router.DELETE("/delete-pet-care-shops/:shop_id", petCareShopController.DeletePetCareShop)
 
     // 寄养人相关路由
     petSitterRepo := repository.NewPetSitterRepository(db)
     petSitterService := services.NewPetSitterService(petSitterRepo)
     petSitterController := controllers.NewPetSitterController(petSitterService)
 
-    router.GET("/pet-sitters", petSitterController.GetAllSitters)
-    router.GET("/pet-sitters/:sitter_id", petSitterController.GetSitterByID)
+    router.GET("/pet-sitters", petSitterController.GetAllPetSitters)
+    router.GET("/pet-sitters/:sitter_id", petSitterController.GetPetSitterByID)
 
     // 寄养信息相关路由
     petBoardingDetailRepo := repository.NewPetBoardingDetailRepository(db)
