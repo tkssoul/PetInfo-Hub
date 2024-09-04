@@ -37,8 +37,8 @@ func (pc *PetFriendlySpotController) CreatePetFriendlySpot(c *gin.Context) {
 // GetPetFriendlySpotByID 获取特定宠物友好景点的详细信息
 func (pc *PetFriendlySpotController) GetPetFriendlySpotByID(c *gin.Context) {
     spotIDStr := c.Param("spot_id")	
-	guideIDUint, _ := strconv.ParseUint(spotIDStr, 10, 64)
-	spotID := uint(guideIDUint) 
+	spotIDUint, _ := strconv.ParseUint(spotIDStr, 10, 64)
+	spotID := uint(spotIDUint) 
     spot, err := pc.spotService.GetPetFriendlySpotByID(spotID)
     if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
