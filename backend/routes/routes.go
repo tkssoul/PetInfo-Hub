@@ -79,7 +79,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
     router := gin.Default()
 
     router.GET("/login", GenerateToken)
-
+    
     protected := router.Group("/")
     protected.Use(AuthMiddleware())
 
@@ -87,6 +87,8 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
     userRepo := repository.NewUserRepository(db)
     userService := services.NewUserService(userRepo)
     userController := controllers.NewUserController(userService)
+    // 用于注册
+    router.POST("/users", userController.CreateUser)
     {
     protected.GET("/users", userController.GetAllUsers)
     protected.GET("/users/:user_id", userController.GetUserByID)
