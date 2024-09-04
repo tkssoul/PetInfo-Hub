@@ -6,11 +6,23 @@ import (
 	"gorm.io/gorm"
 )
 
+// 用户
+type Users struct {
+    gorm.Model    
+    Username     string      `gorm:"type:varchar(50) not null unique" json:"username" form:"username"`
+    Password     string      `gorm:"type:varchar(255) not null" json:"password" form:"password"`
+    RealName     RealName    `gorm:"foreignKey:User_ID" json:"real_name"`
+    Pets        []Pets      `gorm:"foreignKey:User_ID" json:"pets"`
+    Posts       []Posts     `gorm:"foreignKey:User_ID" json:"posts"`
+    Messages    []Messages  `gorm:"foreignKey:Sender_ID" json:"messages"`
+}
+
 // 实名信息
 type RealName struct {
     gorm.Model        
     RIDNum     string `gorm:"unique" json:"rid_num"`         
     RealName   string `gorm:"type:varchar(100) not null" json:"real_name"`    
+    User_ID    uint   `gorm:"not null" json:"user_id"` // 外键
 }
 
 // 宠物
@@ -136,24 +148,14 @@ type PetBoardingDetail struct {
     SpecialRequirements string `gorm:"type:text" json:"special_requirements"`  
 }  
 
-// 用户
-type Users struct {
-    gorm.Model    
-    Username     string      `gorm:"type:varchar(50) not null unique" json:"username" form:"username"`
-    Password     string      `gorm:"type:varchar(255) not null" json:"password" form:"password"`
-    RealName     RealName    `gorm:"foreignKey:User_ID" json:"real_name"`
-    Pets        []Pets      `gorm:"foreignKey:User_ID" json:"pets"`
-    Posts       []Posts     `gorm:"foreignKey:User_ID" json:"posts"`
-    Messages    []Messages  `gorm:"foreignKey:Sender_ID" json:"messages"`
-}
 
 
 func InitDB() *gorm.DB{    
-    dsn := "root:666@tcp(127.0.0.1:3306)/PetDB?charset=utf8mb4&parseTime=True&loc=Local"
+    dsn := "root:rootpw1.@tcp(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local"
     DB, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
     if err != nil {
         panic("连接数据库失败, error=" + err.Error())
     }    
-    DB.AutoMigrate(&RealName{}, &Posts{}, &Pets{},&Likes{},&Comments{},&Friendship{},&Messages{},&Guide{},&PetFriendlySpot{},&PetCareShop{},&PetSitter{},&PetBoardingDetail{},&Users{})
+    DB.AutoMigrate(&Users{},&RealName{}, &Posts{}, &Pets{},&Likes{},&Comments{},&Friendship{},&Messages{},&Guide{},&PetFriendlySpot{},&PetCareShop{},&PetSitter{},&PetBoardingDetail{})
     return DB
 }

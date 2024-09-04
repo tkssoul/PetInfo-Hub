@@ -80,6 +80,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 
     router.GET("/login", GenerateToken)
     
+
     protected := router.Group("/")
     protected.Use(AuthMiddleware())
 
@@ -91,8 +92,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
     router.POST("/users", userController.CreateUser)
     {
     protected.GET("/users", userController.GetAllUsers)
-    protected.GET("/users/:user_id", userController.GetUserByID)
-    protected.POST("/users", userController.CreateUser)
+    protected.GET("/users/:user_id", userController.GetUserByID)    
     protected.PUT("/users/:user_id", userController.UpdateUser)
     protected.DELETE("/users/:user_id", userController.DeleteUser)
 
