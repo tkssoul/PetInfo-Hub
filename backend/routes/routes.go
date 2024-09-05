@@ -4,6 +4,7 @@ import (
     "github.com/gin-gonic/gin"
     "backend/controllers"
     "backend/repository"
+    "backend/models"
     "backend/services"
     "gorm.io/gorm"
     "github.com/golang-jwt/jwt/v5"
@@ -11,6 +12,7 @@ import (
     "fmt"
     "net/http"
 )
+
 
 // JWT
 var (
@@ -23,9 +25,22 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
+var DB1 = models.InitDB()
+var userAuth = repository.NewUserRepository(DB1)
+
 // GenerateToken 生成JWT
 func GenerateToken(c *gin.Context) {
     username := c.PostForm("username")
+    password := c.PostForm("password")
+    fmt.Println(password)
+    // 验证用户名        
+    if user,err := userAuth.FindUserByUsername(username);err != nil {        
+        c.JSON(http.StatusNotFound, gin.H{"error": "用户不存在"})    
+            return          
+    } else if user.Password != password {
+        c.JSON(http.StatusUnauthorized, gin.H{"error": "用户名或密码错误"})
+        return
+    }
 	claims := &Claims{
 		Username: username,
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -78,7 +93,8 @@ func AuthMiddleware() gin.HandlerFunc {
 func SetupRouter(db *gorm.DB) *gin.Engine {
     router := gin.Default()
 
-    router.GET("/login", GenerateToken)
+    router.POST("/login", GenerateToken)
+    
     
 
     protected := router.Group("/")
@@ -90,6 +106,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
     userController := controllers.NewUserController(userService)
     // 用于注册
     router.POST("/users", userController.CreateUser)
+    
     {
     protected.GET("/users", userController.GetAllUsers)
     protected.GET("/users/:user_id", userController.GetUserByID)    
@@ -125,7 +142,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
     protected.PUT("/comments/:comment_id", commentController.UpdateComment)
     protected.DELETE("/comments/:comment_id", commentController.DeleteComment)
 
-    protected.GET("/posts", postController.GetAllPosts)
+    router.GET("/posts", postController.GetAllPosts)
     protected.GET("/posts/:post_id", postController.GetPostByID)
     protected.POST("/users/:user_id/posts", postController.CreatePost)
     protected.PUT("/posts/:post_id", postController.UpdatePost)
