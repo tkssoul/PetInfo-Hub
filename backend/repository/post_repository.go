@@ -17,6 +17,7 @@ func NewPostRepository(db *gorm.DB) *PostRepository {
 // 创建动态
 func (r *PostRepository) CreatePost(post *models.Posts) error {
     result := r.db.Create(post)
+    
     return result.Error
 }
 

@@ -23,11 +23,16 @@ func NewPostController(postService *services.PostService, commentService *servic
 // CreatePost 创建动态
 func (pc *PostController) CreatePost(c *gin.Context) {
     var postCreation services.PostCreation
-    if err := c.ShouldBindJSON(&postCreation); err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-        return
-    }
-
+    postCreation.Content = c.PostForm("content")
+    postCreation.Summary = c.PostForm("summary")
+    postCreation.Tags = c.PostForm("tags")
+    postCreation.ThumbnailURL = c.PostForm("thumbnail_url")
+    postCreation.Title = c.PostForm("title")
+    userIDStr := c.Param("user_id")
+    userIDUint, _ := strconv.ParseUint(userIDStr, 10, 64)
+    postCreation.UserID = uint(userIDUint)    
+    postCreation.Views = 0
+    postCreation.LikeCount = 0
     err := pc.postService.CreatePost(postCreation)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

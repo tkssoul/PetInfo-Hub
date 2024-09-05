@@ -6,6 +6,12 @@ import (
 )
 
 type PostCreation struct {
+    Title   string `json:"title"`
+    Summary string `json:"summary"`
+    ThumbnailURL string `json:"thumbnail_url"`
+    Tags string `json:"tags"`
+    Views int `json:"views"`
+    LikeCount int `json:"like_count"`    
     UserID  uint   `json:"user_id"`
     Content string `json:"content"`
 }
@@ -30,6 +36,12 @@ func NewPostService(postRepo *repository.PostRepository, commentRepo *repository
 // CreatePost 创建动态
 func (ps *PostService) CreatePost(postCreation PostCreation) error {
     newPost := models.Posts{
+        Title: postCreation.Title,
+        Summary: postCreation.Summary,
+        ThumbnailURL: postCreation.ThumbnailURL,
+        Tags: postCreation.Tags,
+        Views: postCreation.Views,
+        LikeCount: postCreation.LikeCount,
         User_ID: postCreation.UserID,
         Content: postCreation.Content,
     }
